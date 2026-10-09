@@ -1,0 +1,137 @@
+#+title: Ejemplos de uso de pycliques
+
+#+options: toc:nil author:nil date:nil
+#+property: header-args:jupyter-python :exports both :cache yes :session ejemplos_pycliques :results raw drawer
+
+* Cargar bibliotecas
+
+#+begin_src jupyter-python
+import networkx as nx
+from pycliques import *
+from pycombtop import *
+#+end_src
+
+#+RESULTS:
+
+* Periódicas
+
+#+begin_src jupyter-python :results scalar
+g = nx.complete_bipartite_graph(3, 4)
+cs = CliqueSequence(g)
+[cs[i].order() for i in range(10)]
+#+end_src
+
+#+RESULTS[7022380b1f0b46be1baf12ca742238623c156ddf]:
+: [7, 12, 7, 12, 7, 12, 7, 12, 7, 12]
+
+#+begin_src jupyter-python :results scalar
+g = nx.petersen_graph()
+cs = CliqueSequence(g)
+[cs[i].order() for i in range(10)]
+#+end_src
+
+#+RESULTS:
+: [10, 15, 10, 15, 10, 15, 10, 15, 10, 15]
+
+#+begin_src jupyter-python :results scalar
+g = nx.strong_product(nx.complete_bipartite_graph(4, 3),
+                      nx.petersen_graph())
+cs = CliqueSequence(g, 300)
+[cs[i].order() for i in range(10) if cs[i] is not None]
+#+end_src
+
+#+RESULTS[99eeab22478fcd008ef0de6527269a187dc727a8]:
+: [70, 180, 70, 180, 70, 180, 70, 180, 70, 180]
+
+* Gráficas aleatorias
+
+#+begin_src jupyter-python
+g = nx.gnp_random_graph(10, 0.5, 300)
+nx.draw(g)
+#+end_src
+
+#+RESULTS:
+[[file:./.ob-jupyter/5c570b64b2cb6409af0c6d3c2e3619e953121219.png]]
+
+#+begin_src jupyter-python :results scalar
+cs = CliqueSequence(g)
+[cs[i].order() for i in range(10)]
+#+end_src
+
+#+RESULTS[ff87fc66839cfe28d26aafd736fc7bb549e078c5]:
+: [15, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+#+begin_src jupyter-python :results scalar
+g = nx.gnp_random_graph(15, 0.7)
+cs = CliqueSequence(g, 50)
+[cs[i].order() for i in range(10) if cs[i] is not None]
+#+end_src
+
+#+RESULTS:
+: [15, 19, 48]
+
+#+begin_src jupyter-python
+classify_clique_behavior(g)
+#+end_src
+
+#+RESULTS:
+: CliqueBehavior(verdict=<Verdict.DIVERGENT: 2>, reason='eventually has a special octahedron (index 0, dimension 3)', iterations_checked=2, bound_exceeded=False, pared_graph=<networkx.classes.graph.Graph object at 0x7fbb90aea550>, certificate=None)
+
+#+begin_src jupyter-python :results scalar
+g = nx.gnp_random_graph(8, 0.5)
+mg = nx.complement(nx.line_graph(g))
+cs = CliqueSequence(mg, 200)
+[cs[i].order() for i in range(10) if cs[i] is not None]
+#+end_src
+
+#+RESULTS:
+: [12, 18, 4, 4, 4, 4, 4, 4, 4, 4]
+
+#+begin_src jupyter-python
+classify_clique_behavior(mg)
+#+end_src
+
+#+RESULTS:
+: CliqueBehavior(verdict=<Verdict.CONVERGENT: 1>, reason='is eventually Helly (index 0)', iterations_checked=2, bound_exceeded=False, pared_graph=<networkx.classes.graph.Graph object at 0x79649e134e90>, certificate=None)
+
+* Relojes
+
+#+begin_src jupyter-python :results scalar
+g = clockwork_graph([1, 1, 1], [[1], [0], [0]], 2, [1, 0])
+cs = CliqueSequence(g, 60)
+[cs[i].order() for i in range(10) if cs[i] is not None]
+#+end_src
+
+#+RESULTS[23f4e688b5af43ac6d51180e418e8ee20a78f1b1]:
+: [9, 11, 13, 15, 17, 19, 21, 23, 25, 27]
+
+#+begin_src jupyter-python :results scalar
+hg = homotopy_clique_graph(g)
+cs = CliqueSequence(hg, 100)
+[cs[i].order() for i in range(10) if cs[i] is not None]
+#+end_src
+
+#+RESULTS[c92485361d29b6a3d9480c663e4b5d29eab9dd8f]:
+: [34, 34, 38, 46, 54, 64, 80, 98]
+
+* Otras
+
+#+begin_src jupyter-python :results scalar
+g = nx.from_graph6_bytes(b"ICqnfp}\o")
+hg = homotopy_clique_graph(g)
+cs = CliqueSequence(hg, 700)
+[cs[i].order() for i in range(10) if cs[i] is not None]
+#+end_src
+
+#+RESULTS[1ad7aec42a93ba029d09ab8e8669e4c0744bcd67]:
+: [54, 50, 67, 89, 148, 267, 606]
+
+
+
+
+* COMMENT Local Variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# ispell-dictionary: "castellano"
+# End:

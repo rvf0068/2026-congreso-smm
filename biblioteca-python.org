@@ -1,0 +1,826 @@
+#+macro: newline @@latex:\\[0.6em]@@ @@html:<br>@@
+
+#+title: Una biblioteca de Python{{{newline}}} para gráficas de clanes y tipo de homotopía
+#+author: Rafael Villarroel Flores, UAEH.
+#+date: 22 de octubre de 2026
+
+#+setupfile: options.org
+
+#+latex: \setbeamercolor{alerted text}{fg=teal}
+#+latex: \setsansfont[BoldFont={Fira Sans SemiBold}]{Fira Sans Book}
+#+latex: \SetVertexNotLabeledSmall
+#+latex: \tikzstyle{EdgeStyle}=[color=white, line width=0.5pt, double=black, double distance=1pt]
+
+* El operador de clanes en gráficas
+
+** Gráficas
+
+Consideramos solamente gráficas finitas y simples (no dirigidas, sin lazos, sin aristas múltiples).
+
+La cantidad de vértices de la gráfica \(G\) se llama el *orden* de \(G\) y lo denotamos \(|G|\).
+
+** Completas
+
+Una *completa* de una gráfica es un conjunto de vértices mutuamente adyacentes.
+   
+#+name: completas
+#+header: :file (by-backend (latex "completas.tikz") (beamer "completas.tikz") (t "completas.png"))
+#+begin_src latex
+\begin{tikzpicture}
+  \pgfmathsetmacro{\edgel}{2}
+  \pgfmathsetmacro{\rad}{\edgel/sqrt(2)}
+  \grHouse[RA=\rad]
+  \Edge(a0)(a2)
+  \Edge(a1)(a3)
+  \only<2>{\AddVertexColor{red}{a0,a2,a3}}
+  \only<3>{\AddVertexColor{blue}{a0,a1,a4}}
+  \only<4>{\AddVertexColor{green}{a0,a1,a2,a3}}
+  \only<5>{\AddVertexColor{magenta}{a2}}
+\end{tikzpicture}
+#+end_src
+   
+#+attr_html: :width 400 :alt completas :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[db755e2dbc6367d938b2661f0478028899dfde3d]: completas
+[[file:completas.png]]
+
+** Clanes
+
+Un *clan* de una gráfica es una completa maximal bajo inclusión.
+   
+#+name: clan
+#+header: :file (by-backend (latex "clan.tikz") (beamer "clan.tikz") (t "clan.png"))
+#+begin_src latex
+\begin{tikzpicture}
+  \pgfmathsetmacro{\edgel}{2}
+  \pgfmathsetmacro{\rad}{\edgel/sqrt(2)}
+  \grHouse[RA=\rad]
+  \Edge(a0)(a2)
+  \Edge(a1)(a3)
+  \only<2>{\AddVertexColor{blue}{a0,a1,a4}}
+  \only<3>{\AddVertexColor{red}{a0,a1,a2,a3}}
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt clan :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[3ad1913e41151dd7be1e878d3d5402cacd55f717]: clan
+[[file:clan.png]]
+
+** Gráfica de clanes
+
+Dada una gráfica \(G\), su *gráfica de clanes \(K(G)\)* es la gráfica de intersección de la colección de clanes de \(G\). Es decir:
+
+- \(V\big(K(G)\big)=\{Q\subseteq V(G)\mid Q \text{ es clan de } G\}\),
+- \(E\big(K(G)\big)=\{\{Q_{1},Q_{2}\}\mid Q_{1}\ne Q_{2}, Q_{1}\cap Q_{2}\ne\emptyset\}\).
+
+** Ejemplo
+
+#+name: graficadeclanes
+#+header: :file (by-backend (latex "graficadeclanes.tikz") (beamer "graficadeclanes.tikz") (t "graficadeclanes.png"))
+#+begin_src latex
+\newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+\begin{tikzpicture}
+  \pgfmathsetmacro{\edgel}{1.8}
+  \pgfmathsetmacro{\rad}{\edgel/sqrt(2)}
+  \grHouse[RA=\rad]
+  \Edge(a0)(a2)
+  \Edge(a1)(a3)   
+  \uncover<2>{\AddVertexColor{blue}{a0,a1,a4}}
+  \uncover<3>{\AddVertexColor{red}{a0,a1,a2,a3}}
+  \graphcaption{0}{-0.9*\edgel}{$G$}
+  \uncover<4->{%
+    \grPath[RA=\edgel,form=2,rotation=90,x=4,y=\edgel/2]{2}
+    \AddVertexColor{red}{a0}
+    \AddVertexColor{blue}{a1}
+    \graphcaption{4}{-0.9*\edgel}{$K(G)$}
+  }
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt graficadeclanes :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[c8eae88294fb16fe9ef1cc9e2958eacd0cfb7f5e]: graficadeclanes
+[[file:graficadeclanes.png]]
+
+** Gráficas iteradas de clanes
+
+- La sucesión de *gráficas iteradas de clanes* se define como:
+  \begin{align*}
+  K^{0}(G) &= G,\\
+  K^{n}(G) &= K^{n-1}(K(G)), \text{ para \(n\geq1\)}.
+  \end{align*}
+- Por ejemplo:
+#+name: iteradas
+#+header: :file (by-backend (latex "iteradas.tikz") (beamer "iteradas.tikz") (t "iteradas.png"))
+#+begin_src latex
+\bigskip
+\newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+\begin{tikzpicture}
+  \pgfmathsetmacro{\edgel}{1.8}
+  \pgfmathsetmacro{\rad}{\edgel/sqrt(2)}
+  \grHouse[RA=\rad]
+  \Edge(a0)(a2)
+  \Edge(a1)(a3)   
+  \graphcaption{0}{-0.9*\edgel}{$G$}
+  \uncover<3->{%
+    \grPath[RA=\edgel,form=2,rotation=90,x=3,y=\edgel/2]{2}
+    \graphcaption{3}{-0.9*\edgel}{$K(G)$}
+  }
+  \uncover<4->{%
+    \Vertex[x=6,y=\edgel/2]{x}
+    \graphcaption{6}{-0.9*\edgel}{$K^{2}(G)$}
+  }
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt iteradas :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[b17f15fb4ff43b36b9487054115026a2a0ed2368]: iteradas
+[[file:iteradas.png]]
+
+** Gráfica completa 
+- En general, la gráfica de clanes de una gráfica completa consta de un solo vértice.
+
+#+name: completa
+#+header: :file (by-backend (latex "completa.tikz") (beamer "completa.tikz") (t "completa.png"))
+#+begin_src latex
+\bigskip
+\newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+\begin{tikzpicture}
+  \pgfmathsetmacro{\rad}{1.5}
+  \grTetrahedral[RA=1]
+  \graphcaption{0}{-\rad}{$K_{4}$}
+  \grPath[x=3*\rad]{1}
+  \graphcaption{3*\rad}{-\rad}{$K_{1}=K^{n}(K_{4})$, $n\geq1$}
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt completa :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[cbdddbe0aeaf1f97fb8ff099d2298b9690e61798]: completa
+[[file:completa.png]]
+
+** Prisma
+
+- El prisma triangular y su gráfica de clanes:
+
+#+name: prisma
+#+header: :file (by-backend (latex "prisma.tikz") (beamer "prisma.tikz") (t "prisma.png"))
+#+begin_src latex
+\bigskip
+\newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+\begin{tikzpicture}
+  \pgfmathsetmacro{\rad}{1.5}
+  \grPrism[RA=\rad, RB=0.4*\rad, rotation=90]{3}
+  \graphcaption{0}{-\rad}{Prisma $T_{3}$}
+  \grPath[x=3*\rad, form=2, prefix=x, RA=0.7, RS=-\rad/2]{1}
+  \grEmptyPath[x=3*\rad, form=2, prefix=y, RA=\rad, RS=\rad/4]{3}
+  \grPath[x=3*\rad, form=2, prefix=z, RA=0.7, RS=\rad]{1}
+  \EdgeFromOneToAll{x}{y}{0}{3}
+  \EdgeFromOneToAll{z}{y}{0}{3}
+  \graphcaption{3*\rad}{-\rad}{$K(T_{3})$}
+\end{tikzpicture}
+\bigskip
+#+end_src
+
+#+attr_html: :width 400 :alt prisma :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[1e4beeb6c06a180edb4af636ceba743093955f78]: prisma
+     [[file:prisma.png]]
+
+- En este caso, \(K^{2}(T_{3})\cong T_{3}\).
+
+** Suspensión de \(C_{5}\)
+
+*** Suspensión                                               :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+
+Sea \(G\) la suspensión del ciclo de 5 vértices \(C_{5}\):
+#+name: suspensionc5
+#+header: :file (by-backend (latex "suspensionc5.tikz") (beamer "suspensionc5.tikz") (t "suspensionc5.png"))
+#+begin_src latex
+\bigskip
+\begin{tikzpicture}[scale=1.2]
+  \setxyzvec[10]
+  \grEmptyCycle[RA=1,prefix=y,rotation=10]{5}
+  \begin{scope}[yshift=1.4cm]
+    \Vertex{x}
+  \end{scope}
+  \begin{scope}[yshift=-1.4cm]
+    \Vertex{z}
+  \end{scope}
+  \EdgeFromOneToAll{z}{y}{}{5}
+  \Edges(y0,y1,y2,y3,y4,y0)
+  \EdgeFromOneToAll{x}{y}{}{5}
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt suspensionc5 :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[27ab036f371ca3889052b88b1b26f08e2dc5dc45]: suspensionc5
+[[file:suspensionc5.png]]
+
+*** Clanes de suspensión                                     :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+
+La gráfica \(K(G)\).
+
+#+name: kdesuspensionc5
+#+header: :file (by-backend (latex "kdesuspensionc5.tikz") (beamer "kdesuspensionc5.tikz") (t "kdesuspensionc5.png"))
+#+begin_src latex
+\bigskip
+\newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+\newcommand{\edgefaces}[2]{%
+    \Edge(a#1)(b#2)
+    \Edge(a#2)(b#1)}
+\newcommand{\edwidth}{1pt}
+
+\begin{tikzpicture}[scale=0.8]
+  \setxyzvec[8]
+  \colorlet{Level1}{black!60}
+  \colorlet{Level2}{black!80}
+  \colorlet{Level3}{black}
+  \newcommand{\rota}{12}  
+  \grEmptyCycle[RA=2,prefix=a,rotation=\rota]{5}
+  % vertices of the lid
+  \pause
+  \begin{scope}[yshift=3.5cm]
+    \grEmptyCycle[RA=2,prefix=b,rotation=\rota]{5}
+  \end{scope}
+  \pause
+  % hidden faces
+  \grComplete[RA=2,prefix=a,rotation=\rota]{5}
+  \pause
+  \begin{scope}[yshift=3.5cm]
+    \grComplete[RA=2,prefix=b,rotation=\rota]{5}
+  \end{scope}
+  \pause
+  \edgefaces{2}{3}
+  \edgefaces{3}{4}
+  % the hidden parallel edge
+  \Edge(a3)(b3)
+  % visible faces
+  \edgefaces{0}{4}
+  \edgefaces{0}{1}
+  \edgefaces{1}{2}
+  % visible parallel edges
+  \EdgeIdentity*{a}{b}{0,1,2,4}
+  \begin{scope}[yshift=3.5cm]
+    \grComplete[RA=2,prefix=b,rotation=\rota]{5}
+  \end{scope}
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt kdesuspensionc5 :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[c0a14afdea9df770830c14a43f1903530046addd]: kdesuspensionc5
+    [[file:kdesuspensionc5.png]]
+
+** Comportamiento
+
+- Decimos que \(G\) es *convergente* si la sucesión de órdenes de las gráficas \(|K^{n}(G)|\) es acotada.
+- Esto es equivalente a que la sucesión
+  \begin{equation*}
+  G, K(G), K^{2}(G),K^{3}(G),\ldots
+  \end{equation*}
+  consta, salvo isomorfismo, de una cantidad finita de diferentes gráficas.
+- También es equivalente a que existan \(m<n\) tales que
+  \(K^{m}(G)\cong K^{n}(G)\).
+- Si \(G\) no es convergente, decimos que es *divergente*.
+- Dada \(G\), determinar si es convergente o divergente es uno de los principales problemas en el área, y existen diversas técnicas al respecto.
+
+
+* Teoremas sobre comportamiento
+
+** Iteradas del octaedro
+
+Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_{n})=O_{2^{n-1}}\). Por lo que \(O_{n}\) es divergente si \(n\geq3\).  (Neumann-Lara, 1973).
+
+#+name: iteradasoctaedro
+#+header: :file (by-backend (latex "iteradasoctaedro.tikz") (beamer "iteradasoctaedro.tikz") (t "iteradasoctaedro.png"))
+#+begin_src latex
+\bigskip
+\newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+\begin{tikzpicture}
+  \grOctahedron[RA=1]{3}
+  \graphcaption{0}{-1.6}{$G=O_{3}$}
+
+  \uncover<2->{%
+    \begin{scope}[xshift=3cm]
+      \grOctahedron[RA=1.2]{4}
+    \end{scope}
+    \graphcaption{3}{-2.0}{$K(G)=O_{4}$}
+  }
+  \uncover<3->{%
+    \begin{scope}[xshift=7.3cm]
+      \grOctahedron[RA=2.3]{8}
+    \end{scope}
+    \graphcaption{7.3}{-3.2}{$K^{2}(G)=O_{8}$}
+  }
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt iteradasoctaedro :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[e896a4fc5be06a748a412df67cc831f900e32e83]: iteradasoctaedro
+[[file:iteradasoctaedro.png]]
+
+** Gráficas Helly
+
+- Una colección \(\mathcal{C}\) de subconjuntos de un conjunto \(X\) es *intersecante* si \(c_{1}\cap c_{2}\ne\emptyset\) para todos \(c_{1},c_{2}\in \mathcal{C}\).
+- La collección \(\mathcal{C}\) es *Helly* si cualquier subfamilia intersecante \(\mathcal{C}'\) de \(\mathcal{C}\) es tal que \(\cap\mathcal{C}'\ne\emptyset\).
+- La gráfica \(G\) es *Helly* si su colección de clanes es Helly.
+- Gráficas bipartitas, o más generalmente, gráficas sin triángulos, son Helly. Las gráficas \(K_{4}\) y \(T_{3}\) son Helly.
+
+** 
+
+- *Pirámide*. La gráfica más pequeña que *no* es Helly:
+
+#+name: no-helly
+#+header: :imagemagick yes :iminoptions -density 300 -resize 400
+#+header: :packages '(("" "tikz") ("" "tkz-berge")) :border 1pt
+#+header: :file (by-backend (latex "no-helly.tikz") (beamer "no-helly.tikz") (t "no-helly.png"))
+#+header: :cache yes
+#+begin_src latex
+\bigskip
+\begin{tikzpicture}
+  \grPath[form=2,prefix=x,RA=1,RS=0]{3}
+  \grPath[form=2,prefix=y,RA=1,RS=1]{2}
+  \grPath[form=2,prefix=z,RA=1,RS=2]{1}
+  \Edges(x0,y0,z0,y1,x2)
+  \Edges(y0,x1,y1)         
+\end{tikzpicture}
+\bigskip
+#+end_src
+
+#+attr_html: :width 400 :alt no-helly :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[0a7c3e8e6e23abdede77a1ea986032bb7382bb2b]: no-helly
+[[file:no-helly.png]]
+- Existe un algoritmo polinomial que decide si una gráfica es Helly. (Dragan, 1989) (Szwarcfiter, 1997)
+
+** Teoremas de Escalante
+
+- (Escalante, 1973) Si \(G\) es Helly, entonces \(G\) es convergente.
+- Escalante también mostró ejemplos de gráficas convergentes (periódicas de periodo \(n\geq3\)) que no son Helly.
+- (Escalante, 1973) Si \(G\) es Helly, \(K(G)\) es Helly.
+- Hay gráficas \(G\) no Helly tales que \(K(G)\) es Helly (como la pirámide).
+- Como la pirámide es la gráfica no Helly más pequeña, se obtiene que cualquier gráfica de cuando mucho 5 vértices es convergente. 
+
+** Gráficas desmantelables
+
+- Un vértice \(x\) en \(G\) es *dominado* si existe \(y\in V(G)\), \(y\ne x\) tal que \(z\sim x\) implica \(z\sim y\).
+#+name: dominado
+#+header: :imagemagick yes :iminoptions -density 300 -resize 400
+#+header: :packages '(("" "tikz") ("" "tkz-berge")) :border 1pt
+#+header: :file (by-backend (latex "dominado.tikz") (beamer "dominado.tikz") (t "dominado.png"))
+#+header: :cache yes
+#+begin_src latex
+\bigskip
+\begin{tikzpicture}[scale=0.4]
+  \SetVertexNoLabel
+  \grPath[form=2,prefix=a,RA=2]{3}
+  \grPath[form=2,prefix=b,RA=2,y=2]{2}
+  \grPath[form=2,prefix=c,RA=2,y=4]{1}
+  \EdgeIdentity{a}{b}{2}
+  \Edge(a1)(b0)
+  \Edge(a2)(b1)
+  \EdgeFromOneToAll{c}{b}{0}{2}
+  \draw (a0) node[below]{\(x\)};
+  \draw (a1) node[below]{\(y\)};
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt dominado :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[d0e79956c429392d43332f2f3703a2a4173d0e32]: dominado
+[[file:dominado.png]]
+- Una gráfica \(G\) es *desmantelable* si \(G\) se pueden llevar a la gráfica de un solo vértice removiendo sucesivamente vértices dominados.
+- Los *árboles* y las *gráficas cordales* son desmantelables.
+
+** Teoremas sobre vértices dominados
+
+- (Bandelt, Prisner, 1991) Si \(G\) es desmantelable, \(K(G)\) es
+  desmantelable.
+- (Prisner, 1992) Si \(G\) es desmantelable, existe \(n\) tal que
+  \(K^{n}(G)\) es la gráfica de un solo vértice. (Es decir, \(G\)
+  es *nula*).
+- (Frías-Armenta, Neumann-Lara, Pizaña, 2004) Si \(x\) es dominado
+  en \(G\), entonces \(G\) y \(G-x\) tienen el mismo
+  comportamiento.
+- Por ejemplo, la siguiente gráfica es divergente:
+#+name: octaedro-con-pelos
+#+header: :file (by-backend (latex "octaedro-con-pelos.tikz") (beamer "octaedro-con-pelos.tikz") (t "octaedro-con-pelos.png"))
+#+begin_src latex
+\bigskip
+\begin{tikzpicture}
+  \grOctahedron[RA=1]{3}
+  \Vertex[x=2,y=0]{x}
+  \Vertex[x=-2,y=0]{y}
+  \Edge(x)(a2)
+  \Edge(y)(b1)
+\end{tikzpicture}
+#+end_src
+     
+#+attr_html: :width 400 :alt octaedro-con-pelos :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[b5983b313acbfcebfac05fc0a9d98912de4592d8]: octaedro-con-pelos
+[[file:octaedro-con-pelos.png]]
+  
+** Morfismos de gráficas
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.6
+    :END:
+    Un *morfismo de gráficas* \(f\colon G\to L\) es una función tal que \(x\sim y\) implica \(f(x)\sim f(y)\) o \(f(x)=f(y)\).
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.4
+    :END:
+#+name: morfismo
+#+header: :file (by-backend (latex "morfismo.tikz") (beamer "morfismo.tikz") (t "morfismo.png"))
+#+begin_src latex
+\begin{tikzpicture}
+  \newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+  \grMan[RA=1]
+  \graphcaption{0}{-3}{\(G\)}
+  \AddVertexColor{red}{a0,a1,a2,a3}
+  \AddVertexColor{blue}{a4,a5,a6}
+  \AddVertexColor{green}{a7}
+  \AddVertexColor{orange}{a8,a9}
+  \grPath[x=2, y=-2, form=1, rotation=90, RA=1]{4}
+  \graphcaption{2}{-3}{\(L\)}
+  \AddVertexColor{red}{a3}
+  \AddVertexColor{blue}{a2}
+  \AddVertexColor{green}{a1}
+  \AddVertexColor{orange}{a0}
+\end{tikzpicture}
+#+end_src
+
+#+attr_html: :width 400 :alt morfismo :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[bfb63258ac3cadea7b2a94dcd0da159a0a253b1f]: morfismo
+[[file:morfismo.png]]
+
+** Retracciones 
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.6
+    :END:
+    Si \(L\) es una subgráfica de \(G\), una *retracción* \(r\colon
+    G\to L\) es un morfismo tal que \(r(x)=x\) para todo \(x\in L\).
+
+***                                                          :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.4
+    :END:
+    #+name: retracción
+    #+header: :file (by-backend (latex "retracción.tikz") (beamer "retracción.tikz") (t "retracción.png"))
+    #+begin_src latex
+\setxyzvec[17]
+\newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
+\begin{tikzpicture}[
+  scale=0.5,
+  x = {(\xone cm,\yone cm)},
+  y = {(\xtwo cm,\ytwo cm)},
+  z = {(0cm,1cm)}
+]
+  \begin{scope}[canvas is xy plane at z=0]
+    \grEmptyCycle[RA=2,prefix=a,rotation=35]{4}
+  \end{scope}
+  \begin{scope}[canvas is xy plane at z=-2.5]
+    \Vertex{x}
+  \end{scope}
+  \begin{scope}[canvas is xy plane at z=2.5]
+    \Vertex{y}
+  \end{scope}
+  \EdgeFromOneToAll{x}{a}{}{4}
+  \EdgeInGraphLoop{a}{4}
+  \EdgeFromOneToAll{y}{a}{}{4}
+  \uncover<4>{\graphcaption{6}{6}{$O_{3}$}}
+  \uncover<5->{%
+    \begin{scope}[canvas is xy plane at z=2.5]
+      \Vertex[x=2,y=-2]{z}
+    \end{scope}
+    \EdgeFromOneToSel{z}{a}{}{0,3} \Edge(z)(y)
+  }
+  \uncover<6->{%
+    \begin{scope}[canvas is xy plane at z=-2.5]
+      \Vertex[x=2,y=-2]{w}
+    \end{scope}
+    \EdgeFromOneToSel{w}{a}{}{0,3} \Edge(w)(x)
+  }
+  \uncover<7->{\Edge(z)(w)}
+  \uncover<8->{%
+    {\SetUpEdge[color=magenta,lw=3pt]
+      \Edge[style={bend right=45,->}](z)(a3)
+      \Edge[style={bend right=45,->}](w)(a0)}
+    \graphcaption{7}{7}{retracción}
+  }
+\end{tikzpicture}
+ 
+    #+end_src
+    
+    #+attr_html: :width 400 :alt retracción :align center
+    #+attr_latex: :float t :width ""
+    #+RESULTS[2373d13930725ea7d03e1da79c88a6e2fd782b5f]: retracción
+    [[file:retracción.png]]
+
+#+beamer: \pause
+#+beamer: \pause
+#+beamer: \pause
+#+beamer: \pause
+#+beamer: \pause
+
+***                                                         :B_ignoreheading:
+    :PROPERTIES:
+    :BEAMER_env: ignoreheading
+    :END:
+    - (Neumann-Lara, 1976). Si \(r\colon G\to L\) es una retracción,
+      entonces se induce una retracción \(K(r)\colon K(G)\to
+      K(L)\).
+    - En particular, si \(L\) es divergente, entonces \(G\) es
+      divergente. 
+
+** Retracciones a octaedros
+
+   - En la práctica, las retracciones a octaedros son frecuentes.
+   - Entre las retracciones a octaedros, las que son relativamente
+     más fáciles de detectar son los *octaedros especiales*.
+   - Un octaedro especial en la gráfica \(G\) es una subgráfica \(H\)
+     tal que \(H\cong O_{n}\) para alguna \(n\geq3\) y tal que un clan
+     de \(H\) es un clan de \(G\).
+   - (Larrión, Pizaña, V., 2019) Si \(G\) tiene un octaedro especial
+     \(H\), entonces \(G\) se retrae a \(H\).
+
+** Expansivas
+
+   - Con la teoría de *gráficas expansivas*, Neumann-Lara (1976) probó
+     que las *suspensiones* de ciclos de \(n\) vértices, para \(n\geq
+     5\), son divergentes.
+
+     #+name: suspensiones
+     #+header: :file (by-backend (latex "suspensiones.tikz") (beamer "suspensiones.tikz") (t "suspensiones.png"))
+     #+begin_src latex
+\bigskip
+\begin{tikzpicture}[scale=1.5]
+  \setxyzvec[20]
+  \grEmptyCycle[RA=1,prefix=y,rotation=10]{6}
+  \begin{scope}[yshift=1.4cm]
+    \Vertex{x}
+  \end{scope}
+  \begin{scope}[yshift=-1.4cm]
+    \Vertex{z}
+  \end{scope}
+  \EdgeFromOneToAll{z}{y}{}{6}
+  \Edges(y0,y1,y2,y3,y4,y5,y0)
+  \EdgeFromOneToAll{x}{y}{}{6}
+  \grCycle[RA=1,prefix=y,rotation=10]{6}
+  \Edge(y0)(x)
+  \Edge(y1)(x)
+\end{tikzpicture}
+     #+end_src
+   
+     #+attr_html: :width 400 :alt suspensiones :align center
+     #+attr_latex: :float t :width ""
+     #+RESULTS[8c54688637c2b49606e64a51c550637c799a95f8]: suspensiones
+     [[file:suspensiones.png]]
+
+** 
+
+   - Los *complementos* de los ciclos de \(n\) vértices, para \(n\geq
+     8\), también son gráficas expansivas, por lo tanto, divergentes.
+
+     #+name: complementos-de-ciclos
+     #+header: :file (by-backend (latex "complementos-de-ciclos.tikz") (beamer "complementos-de-ciclos.tikz") (t "complementos-de-ciclos.png"))
+     #+begin_src latex
+\bigskip
+\begin{tikzpicture}
+  \grEmptyCycle[RA=2]{8}
+  \EdgeInGraphMod{a}{8}{2}
+  \EdgeInGraphMod{a}{8}{3}
+  \EdgeInGraphMod{a}{8}{4}
+\end{tikzpicture}
+     #+end_src
+     
+     #+attr_html: :width 400 :alt complementos-de-ciclos :align center
+     #+attr_latex: :float t :width ""
+     #+RESULTS[d2570c75d65664e6fc5fe8c0e631004c73643c3a]: complementos-de-ciclos
+     [[file:complementos-de-ciclos.png]]
+  
+
+** 
+     Un *reloj*. Las gráficas de clanes de esta gráfica ganan un vértice en cada iteración.
+     #+name: reloj
+     #+header: :imagemagick yes :iminoptions -density 300 -resize 400
+     #+header: :packages '(("" "tikz") ("" "tkz-berge")) :border 1pt
+     #+header: :file (by-backend (latex "reloj.tikz") (beamer "reloj.tikz") (t "reloj.png"))
+     #+header: :cache yes
+     #+begin_src latex :results raw file
+       \begin{tikzpicture}[scale=0.4]
+        \begin{scope}[rotate=90]
+          \grEmptyCycle[prefix=a,RA=2]{3}
+          \grEmptyCycle[prefix=b,RA=4]{3} \EdgeIdentity{a}{b}{3}
+          \Edges[style={bend right}](a0,a1,a2,b0,b1,b2,a0)
+        \end{scope}
+        \begin{scope}[rotate=15]
+          \grEmptyCycle[prefix=c,RA=4]{3}
+        \end{scope}
+        \Edges[style={bend right}](c0,c1,c2)
+        \EdgeIdentity[style={bend right}]{c}{b}{3}
+        \EdgeIdentity{c}{a}{3}
+        \EdgeMod[style={bend right}]{b}{c}{3}{1}
+        \EdgeMod{a}{c}{3}{1}
+       \end{tikzpicture}
+     #+end_src
+
+     #+attr_html: :width 400 :alt reloj :align center
+     #+attr_latex: :float t :width ""
+     #+RESULTS[fd6a48439847b4ad2035d276bad7d45ae1d9499b]: reloj
+     [[file:reloj.png]]
+
+   
+* Gráficas pequeñas
+
+** Página de McKay
+
+   En la [[http://cs.anu.edu.au/~bdm/data/graphs.html][página de internet]] de Brendan McKay hay archivos donde se
+   pueden descargar archivos con gráficas conexas pequeñas.
+ 
+   | \(n\) | # gráficas conexas con \(n\) vértices |
+   |-------+---------------------------------------|
+   |     6 |                                   112 |
+   |     7 |                                   853 |
+   |     8 |                                 11117 |
+   |     9 |                                261080 |
+   |    10 |                              11716571 |
+   |-------+---------------------------------------|
+ 
+
+** Biblioteca pycliques
+
+En https://github.com/rvf0068/pycliques-project se implementan varios de los teoremas aquí mencionados para determinar el clan comportamiento de la mayor cantidad posible de gráficas. =pycliques= es una biblioteca de Python basada en =networkx=.
+
+** 
+
+   Para cada gráfica conexa de orden entre 6 y 9 calculamos:
+
+   - Si tiene vértices dominados.
+   - Si es una (clase especial de) gráfica expansiva.
+   - Si es un reloj.
+   - Si alguna iterada es Helly.
+     - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna
+       iterada pasa de 30 vértices, la dejamos.
+   - Si se retrae especialmente a algún octaedro.
+   - Si se retrae a la suspensón de \(C_{5}\), a la suspensión de
+     \(C_{6}\), o al complemento de \(C_{8}\).
+   - Si alguna iterada de clanes se retrae especialmente a algún
+     octaedro. 
+     - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna
+       iterada pasa de 20 vértices, la dejamos.
+   - Si no satisface ninguna de las anteriores, la estudiaremos aparte.
+   
+** Resultados
+
+   - Todas las gráficas de hasta 7 vértices tienen comportamiento conocido.
+   - La única gráfica de 8 vértices que tiene comportamiento
+     desconocido es una triangulación de la esfera, a saber, el
+     *disfenoide chato* (snub dysphenoid).
+
+*** chato 1                                                  :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+
+     #+name: disfenoide-chato
+     #+header: :file (by-backend (latex "disfenoide-chato.tikz") (beamer "disfenoide-chato.tikz") (t "disfenoide-chato.png"))
+     #+begin_src latex
+\bigskip
+\begin{tikzpicture}
+  \grPath[form=2, RA=1.2, rotation=90, prefix=a]{4}
+  \grPath[form=2, RA=1.2, prefix=b]{4}
+  \EdgeFromOneToAll{b}{a}{3}{4}
+  \EdgeFromOneToAll{b}{a}{0}{4}
+  \EdgeFromOneToAll{a}{b}{3}{4}
+  \EdgeFromOneToAll{a}{b}{0}{4}
+\end{tikzpicture}
+     #+end_src
+     
+     #+attr_html: :width 400 :alt disfenoide-chato :align center
+     #+attr_latex: :float t :width ""
+     #+RESULTS[116bf51be7cf0f24b74c30b5f25dbf240fa2417e]: disfenoide-chato
+     [[file:disfenoide-chato.png]]
+
+*** chato 2                                                  :B_column:BMCOL:
+    :PROPERTIES:
+    :BEAMER_env: column
+    :BEAMER_col: 0.5
+    :END:
+    #+name: chato-3d
+    #+header: :file (by-backend (latex "chato-3d.tikz") (beamer "chato-3d.tikz") (t "chato-3d.png"))
+    #+begin_src latex
+    \setxyzvec[25]
+    \newcommand{\rot}{30}
+    \newcommand{\leng}{5}
+    \newcommand{\factor}{2}
+    \begin{tikzpicture}[
+      x = {(\xone cm,\yone cm)},
+      y = {(\xtwo cm,\ytwo cm)},
+      z = {(0cm,1cm)},
+      scale=0.35
+    ]
+      \grEmptyPath[prefix=a,form=2,RA=\leng,rotation=\rot]{2}
+      \begin{scope}[canvas is xy plane at z={\factor*sqrt(2)}]
+        \grEmptyPath[prefix=b,form=2,RA=\leng,rotation=90+\rot]{2}
+      \end{scope}
+      \begin{scope}[canvas is xy plane at z={2*\factor*sqrt(2)}]
+        \grEmptyPath[prefix=c,form=2,RA=\leng,rotation=\rot]{2}
+      \end{scope}
+      \begin{scope}[canvas is xy plane at z={3*\factor*sqrt(2)}]
+        \grPath[prefix=d,form=2,RA=\leng,rotation=90+\rot]{2}
+      \end{scope}
+      {\tikzstyle{EdgeStyle}= [color=white,line width=1pt,double=black,double distance=1pt]
+        \Edge(a0)(c0)
+        \Edge(a0)(a1)
+        \EdgeFromOneToAll{a}{b}{0}{2}
+        \EdgeFromOneToAll{c}{d}{0}{2}
+        \EdgeFromOneToAll{c}{b}{0}{2}
+      }
+      \EdgeFromOneToAll{a}{b}{1}{2}
+      \EdgeFromOneToAll{c}{b}{1}{2}
+      \Edge(b0)(d0)
+      \Edge(b1)(d1)
+      \Edge(a1)(c1)
+      \EdgeFromOneToAll{c}{d}{1}{2}
+      \begin{scope}[canvas is xy plane at z={4*sqrt(2)}]
+        \grEmptyPath[prefix=c,form=2,RA=\leng,rotation=\rot]{2}
+      \end{scope}
+      \begin{scope}[canvas is xy plane at z={3*\factor*sqrt(2)}]
+        \grPath[prefix=d,form=2,RA=\leng,rotation=90+\rot]{2}
+      \end{scope}
+    \end{tikzpicture}
+    #+end_src
+    
+    #+attr_html: :width 400 :alt chato-3d :align center
+    #+attr_latex: :float t :width ""
+    #+RESULTS[91f5703155b840a874c76f1e4b44f208a2ef9dd5]: chato-3d
+    [[file:chato-3d.png]]
+
+** Iteradas del chato
+
+   - Los órdenes de las primeras iteradas de clanes del disfenoide
+     chato \(D\) son:
+
+     | \(n\) | orden de $K^{n}(D)$ |
+     |-------+---------------------|
+     |     0 |                   8 |
+     |     1 |                  12 |
+     |     2 |                  20 |
+     |     3 |                  56 |
+     |     4 |                1076 |
+     |     5 |    $>7,370,000,000$ |
+
+** 9 y 10 vértices
+   - Quedan 29 gráficas de orden 9 con carácter desconocido.
+   - Suponiendo que el disfenoide chato es divergente, quedarían todavía 18 gráficas con carácter      desconocido.
+   - Hay exactamente 2 de ellas que son triangulaciones de la esfera.
+   - De las más de 11 millones de gráficas conexas de 10 vértices, quedan aproximadamente 2800 con carácter desconocido.
+
+* Tipo de homotopía
+
+** Complejos simpliciales
+
+- Un *complejo simplicial* es una colección de conjuntos cerrada bajo contención. Los elementos de la colección se llaman *simplejos*.
+- A cada complejo simplicial se le puede asociar un espacio topológico.
+- A una gráfica \(G\) se le puede asociar el complejo simplicial \(\mathrm{Cl}(G)\) cuyos simplejos son las completas.
+- El tipo de homotopía de \(\mathrm{Cl}(G)\) parece estar relacionado con el comportamiento de \(G\) bajo el operador de clanes.
+
+** Resultados y conjeturas
+
+- Dado cualquier complejo simplicial \(\Delta\) existe una gráfica \(G\) tal que \(\mathrm{Cl}(G)\simeq \Delta\) y \(G\) es divergente. (Larrión, Pizaña, V., 2013)
+# - *Conjetura* Si \(\)
+
+
+* COMMENT Local Variables
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# org-beamer-outline-frame-title: "Esbozo"
+# ispell-dictionary: "castellano"
+# org-latex-compiler: "lualatex"
+# End:

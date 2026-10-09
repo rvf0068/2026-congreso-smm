@@ -1,0 +1,8 @@
+/.ob-jupyter/
+*.png
+*.bbl
+/biblioteca-python.org_archive
+*~
+/biblioteca-python.pdf
+/biblioteca-python.tex
+*.tikz
