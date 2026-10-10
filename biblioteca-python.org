@@ -22,7 +22,7 @@ La cantidad de vértices de la gráfica \(G\) se llama el *orden* de \(G\) y lo
 ** Completas
 
 Una *completa* de una gráfica es un conjunto de vértices mutuamente adyacentes.
-   
+
 #+name: completas
 #+header: :file (by-backend (latex "completas.tikz") (beamer "completas.tikz") (t "completas.png"))
 #+begin_src latex
@@ -38,7 +38,7 @@ Una *completa* de una gráfica es un conjunto de vértices mutuamente adyacentes
   \only<5>{\AddVertexColor{magenta}{a2}}
 \end{tikzpicture}
 #+end_src
-   
+
 #+attr_html: :width 400 :alt completas :align center
 #+attr_latex: :float t :width ""
 #+RESULTS[db755e2dbc6367d938b2661f0478028899dfde3d]: completas
@@ -47,7 +47,7 @@ Una *completa* de una gráfica es un conjunto de vértices mutuamente adyacentes
 ** Clanes
 
 Un *clan* de una gráfica es una completa maximal bajo inclusión.
-   
+
 #+name: clan
 #+header: :file (by-backend (latex "clan.tikz") (beamer "clan.tikz") (t "clan.png"))
 #+begin_src latex
@@ -187,17 +187,17 @@ Dada una gráfica \(G\), su *gráfica de clanes \(K(G)\)* es la gráfica de inte
 #+attr_html: :width 400 :alt prisma :align center
 #+attr_latex: :float t :width ""
 #+RESULTS[1e4beeb6c06a180edb4af636ceba743093955f78]: prisma
-     [[file:prisma.png]]
+[[file:prisma.png]]
 
 - En este caso, \(K^{2}(T_{3})\cong T_{3}\).
 
 ** Suspensión de \(C_{5}\)
 
 *** Suspensión                                               :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.5
-    :END:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.5
+:END:
 
 Sea \(G\) la suspensión del ciclo de 5 vértices \(C_{5}\):
 #+name: suspensionc5
@@ -225,10 +225,10 @@ Sea \(G\) la suspensión del ciclo de 5 vértices \(C_{5}\):
 [[file:suspensionc5.png]]
 
 *** Clanes de suspensión                                     :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.5
-    :END:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.5
+:END:
 
 La gráfica \(K(G)\).
 
@@ -281,7 +281,7 @@ La gráfica \(K(G)\).
 #+attr_html: :width 400 :alt kdesuspensionc5 :align center
 #+attr_latex: :float t :width ""
 #+RESULTS[c0a14afdea9df770830c14a43f1903530046addd]: kdesuspensionc5
-    [[file:kdesuspensionc5.png]]
+[[file:kdesuspensionc5.png]]
 
 ** Comportamiento
 
@@ -291,8 +291,7 @@ La gráfica \(K(G)\).
   G, K(G), K^{2}(G),K^{3}(G),\ldots
   \end{equation*}
   consta, salvo isomorfismo, de una cantidad finita de diferentes gráficas.
-- También es equivalente a que existan \(m<n\) tales que
-  \(K^{m}(G)\cong K^{n}(G)\).
+- También es equivalente a que existan \(m<n\) tales que \(K^{m}(G)\cong K^{n}(G)\).
 - Si \(G\) no es convergente, decimos que es *divergente*.
 - Dada \(G\), determinar si es convergente o divergente es uno de los principales problemas en el área, y existen diversas técnicas al respecto.
 
@@ -301,7 +300,7 @@ La gráfica \(K(G)\).
 
 ** Iteradas del octaedro
 
-Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_{n})=O_{2^{n-1}}\). Por lo que \(O_{n}\) es divergente si \(n\geq3\).  (Neumann-Lara, 1973).
+Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_{n})=O_{2^{n-1}}\). Por lo que \(O_{n}\) es divergente si \(n\geq3\). (Neumann-Lara, 1973).
 
 #+name: iteradasoctaedro
 #+header: :file (by-backend (latex "iteradasoctaedro.tikz") (beamer "iteradasoctaedro.tikz") (t "iteradasoctaedro.png"))
@@ -364,6 +363,7 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 #+attr_latex: :float t :width ""
 #+RESULTS[0a7c3e8e6e23abdede77a1ea986032bb7382bb2b]: no-helly
 [[file:no-helly.png]]
+
 - Existe un algoritmo polinomial que decide si una gráfica es Helly. (Dragan, 1989) (Szwarcfiter, 1997)
 
 ** Teoremas de Escalante
@@ -402,19 +402,15 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 #+attr_latex: :float t :width ""
 #+RESULTS[d0e79956c429392d43332f2f3703a2a4173d0e32]: dominado
 [[file:dominado.png]]
+
 - Una gráfica \(G\) es *desmantelable* si \(G\) se pueden llevar a la gráfica de un solo vértice removiendo sucesivamente vértices dominados.
 - Los *árboles* y las *gráficas cordales* son desmantelables.
 
 ** Teoremas sobre vértices dominados
 
-- (Bandelt, Prisner, 1991) Si \(G\) es desmantelable, \(K(G)\) es
-  desmantelable.
-- (Prisner, 1992) Si \(G\) es desmantelable, existe \(n\) tal que
-  \(K^{n}(G)\) es la gráfica de un solo vértice. (Es decir, \(G\)
-  es *nula*).
-- (Frías-Armenta, Neumann-Lara, Pizaña, 2004) Si \(x\) es dominado
-  en \(G\), entonces \(G\) y \(G-x\) tienen el mismo
-  comportamiento.
+- (Bandelt, Prisner, 1991) Si \(G\) es desmantelable, \(K(G)\) es desmantelable.
+- (Prisner, 1992) Si \(G\) es desmantelable, existe \(n\) tal que \(K^{n}(G)\) es la gráfica de un solo vértice. (Es decir, \(G\) es *nula*).
+- (Frías-Armenta, Neumann-Lara, Pizaña, 2004) Si \(x\) es dominado en \(G\), entonces \(G\) y \(G-x\) tienen el mismo comportamiento.
 - Por ejemplo, la siguiente gráfica es divergente:
 #+name: octaedro-con-pelos
 #+header: :file (by-backend (latex "octaedro-con-pelos.tikz") (beamer "octaedro-con-pelos.tikz") (t "octaedro-con-pelos.png"))
@@ -428,26 +424,26 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
   \Edge(y)(b1)
 \end{tikzpicture}
 #+end_src
-     
+
 #+attr_html: :width 400 :alt octaedro-con-pelos :align center
 #+attr_latex: :float t :width ""
 #+RESULTS[b5983b313acbfcebfac05fc0a9d98912de4592d8]: octaedro-con-pelos
 [[file:octaedro-con-pelos.png]]
-  
+
 ** Morfismos de gráficas
 
 ***                                                          :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.6
-    :END:
-    Un *morfismo de gráficas* \(f\colon G\to L\) es una función tal que \(x\sim y\) implica \(f(x)\sim f(y)\) o \(f(x)=f(y)\).
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.6
+:END:
+Un *morfismo de gráficas* \(f\colon G\to L\) es una función tal que \(x\sim y\) implica \(f(x)\sim f(y)\) o \(f(x)=f(y)\).
 
 ***                                                          :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.4
-    :END:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.4
+:END:
 #+name: morfismo
 #+header: :file (by-backend (latex "morfismo.tikz") (beamer "morfismo.tikz") (t "morfismo.png"))
 #+begin_src latex
@@ -476,21 +472,20 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 ** Retracciones 
 
 ***                                                          :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.6
-    :END:
-    Si \(L\) es una subgráfica de \(G\), una *retracción* \(r\colon
-    G\to L\) es un morfismo tal que \(r(x)=x\) para todo \(x\in L\).
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.6
+:END:
+Si \(L\) es una subgráfica de \(G\), una *retracción* \(r\colon G\to L\) es un morfismo tal que \(r(x)=x\) para todo \(x\in L\).
 
 ***                                                          :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.4
-    :END:
-    #+name: retracción
-    #+header: :file (by-backend (latex "retracción.tikz") (beamer "retracción.tikz") (t "retracción.png"))
-    #+begin_src latex
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.4
+:END:
+#+name: retracción
+#+header: :file (by-backend (latex "retracción.tikz") (beamer "retracción.tikz") (t "retracción.png"))
+#+begin_src latex
 \setxyzvec[17]
 \newcommand{\graphcaption}[4][gray!80!white]{\draw (#2,#3) node [fill=#1]{#4};}
 \begin{tikzpicture}[
@@ -532,13 +527,13 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
     \graphcaption{7}{7}{retracción}
   }
 \end{tikzpicture}
- 
-    #+end_src
-    
-    #+attr_html: :width 400 :alt retracción :align center
-    #+attr_latex: :float t :width ""
-    #+RESULTS[2373d13930725ea7d03e1da79c88a6e2fd782b5f]: retracción
-    [[file:retracción.png]]
+
+#+end_src
+
+#+attr_html: :width 400 :alt retracción :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[2373d13930725ea7d03e1da79c88a6e2fd782b5f]: retracción
+[[file:retracción.png]]
 
 #+beamer: \pause
 #+beamer: \pause
@@ -547,35 +542,26 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 #+beamer: \pause
 
 ***                                                         :B_ignoreheading:
-    :PROPERTIES:
-    :BEAMER_env: ignoreheading
-    :END:
-    - (Neumann-Lara, 1976). Si \(r\colon G\to L\) es una retracción,
-      entonces se induce una retracción \(K(r)\colon K(G)\to
-      K(L)\).
-    - En particular, si \(L\) es divergente, entonces \(G\) es
-      divergente. 
+:PROPERTIES:
+:BEAMER_env: ignoreheading
+:END:
+- (Neumann-Lara, 1976). Si \(r\colon G\to L\) es una retracción, entonces se induce una retracción \(K(r)\colon K(G)\to K(L)\).
+- En particular, si \(L\) es divergente, entonces \(G\) es divergente.
 
 ** Retracciones a octaedros
 
-   - En la práctica, las retracciones a octaedros son frecuentes.
-   - Entre las retracciones a octaedros, las que son relativamente
-     más fáciles de detectar son los *octaedros especiales*.
-   - Un octaedro especial en la gráfica \(G\) es una subgráfica \(H\)
-     tal que \(H\cong O_{n}\) para alguna \(n\geq3\) y tal que un clan
-     de \(H\) es un clan de \(G\).
-   - (Larrión, Pizaña, V., 2019) Si \(G\) tiene un octaedro especial
-     \(H\), entonces \(G\) se retrae a \(H\).
+- En la práctica, las retracciones a octaedros son frecuentes.
+- Entre las retracciones a octaedros, las que son relativamente más fáciles de detectar son los *octaedros especiales*.
+- Un octaedro especial en la gráfica \(G\) es una subgráfica \(H\) tal que \(H\cong O_{n}\) para alguna \(n\geq3\) y tal que un clan de \(H\) es un clan de \(G\).
+- (Larrión, Pizaña, V., 2019) Si \(G\) tiene un octaedro especial \(H\), entonces \(G\) se retrae a \(H\).
 
 ** Expansivas
 
-   - Con la teoría de *gráficas expansivas*, Neumann-Lara (1976) probó
-     que las *suspensiones* de ciclos de \(n\) vértices, para \(n\geq
-     5\), son divergentes.
+- Con la teoría de *gráficas expansivas*, Neumann-Lara (1976) probó que las *suspensiones* de ciclos de \(n\) vértices, para \(n\geq 5\), son divergentes.
 
-     #+name: suspensiones
-     #+header: :file (by-backend (latex "suspensiones.tikz") (beamer "suspensiones.tikz") (t "suspensiones.png"))
-     #+begin_src latex
+#+name: suspensiones
+#+header: :file (by-backend (latex "suspensiones.tikz") (beamer "suspensiones.tikz") (t "suspensiones.png"))
+#+begin_src latex
 \bigskip
 \begin{tikzpicture}[scale=1.5]
   \setxyzvec[20]
@@ -593,21 +579,20 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
   \Edge(y0)(x)
   \Edge(y1)(x)
 \end{tikzpicture}
-     #+end_src
-   
-     #+attr_html: :width 400 :alt suspensiones :align center
-     #+attr_latex: :float t :width ""
-     #+RESULTS[8c54688637c2b49606e64a51c550637c799a95f8]: suspensiones
-     [[file:suspensiones.png]]
+#+end_src
+
+#+attr_html: :width 400 :alt suspensiones :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[8c54688637c2b49606e64a51c550637c799a95f8]: suspensiones
+[[file:suspensiones.png]]
 
 ** 
 
-   - Los *complementos* de los ciclos de \(n\) vértices, para \(n\geq
-     8\), también son gráficas expansivas, por lo tanto, divergentes.
+- Los *complementos* de los ciclos de \(n\) vértices, para \(n\geq 8\), también son gráficas expansivas, por lo tanto, divergentes.
 
-     #+name: complementos-de-ciclos
-     #+header: :file (by-backend (latex "complementos-de-ciclos.tikz") (beamer "complementos-de-ciclos.tikz") (t "complementos-de-ciclos.png"))
-     #+begin_src latex
+#+name: complementos-de-ciclos
+#+header: :file (by-backend (latex "complementos-de-ciclos.tikz") (beamer "complementos-de-ciclos.tikz") (t "complementos-de-ciclos.png"))
+#+begin_src latex
 \bigskip
 \begin{tikzpicture}
   \grEmptyCycle[RA=2]{8}
@@ -615,22 +600,22 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
   \EdgeInGraphMod{a}{8}{3}
   \EdgeInGraphMod{a}{8}{4}
 \end{tikzpicture}
-     #+end_src
-     
-     #+attr_html: :width 400 :alt complementos-de-ciclos :align center
-     #+attr_latex: :float t :width ""
-     #+RESULTS[d2570c75d65664e6fc5fe8c0e631004c73643c3a]: complementos-de-ciclos
-     [[file:complementos-de-ciclos.png]]
-  
+#+end_src
+
+#+attr_html: :width 400 :alt complementos-de-ciclos :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[d2570c75d65664e6fc5fe8c0e631004c73643c3a]: complementos-de-ciclos
+[[file:complementos-de-ciclos.png]]
+
 
 ** 
-     Un *reloj*. Las gráficas de clanes de esta gráfica ganan un vértice en cada iteración.
-     #+name: reloj
-     #+header: :imagemagick yes :iminoptions -density 300 -resize 400
-     #+header: :packages '(("" "tikz") ("" "tkz-berge")) :border 1pt
-     #+header: :file (by-backend (latex "reloj.tikz") (beamer "reloj.tikz") (t "reloj.png"))
-     #+header: :cache yes
-     #+begin_src latex :results raw file
+Un *reloj*. Las gráficas de clanes de esta gráfica ganan un vértice en cada iteración.
+#+name: reloj
+#+header: :imagemagick yes :iminoptions -density 300 -resize 400
+#+header: :packages '(("" "tikz") ("" "tkz-berge")) :border 1pt
+#+header: :file (by-backend (latex "reloj.tikz") (beamer "reloj.tikz") (t "reloj.png"))
+#+header: :cache yes
+#+begin_src latex :results raw file
        \begin{tikzpicture}[scale=0.4]
         \begin{scope}[rotate=90]
           \grEmptyCycle[prefix=a,RA=2]{3}
@@ -646,30 +631,29 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
         \EdgeMod[style={bend right}]{b}{c}{3}{1}
         \EdgeMod{a}{c}{3}{1}
        \end{tikzpicture}
-     #+end_src
+#+end_src
 
-     #+attr_html: :width 400 :alt reloj :align center
-     #+attr_latex: :float t :width ""
-     #+RESULTS[fd6a48439847b4ad2035d276bad7d45ae1d9499b]: reloj
-     [[file:reloj.png]]
+#+attr_html: :width 400 :alt reloj :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[fd6a48439847b4ad2035d276bad7d45ae1d9499b]: reloj
+[[file:reloj.png]]
 
-   
+
 * Gráficas pequeñas
 
 ** Página de McKay
 
-   En la [[http://cs.anu.edu.au/~bdm/data/graphs.html][página de internet]] de Brendan McKay hay archivos donde se
-   pueden descargar archivos con gráficas conexas pequeñas.
- 
-   | \(n\) | # gráficas conexas con \(n\) vértices |
-   |-------+---------------------------------------|
-   |     6 |                                   112 |
-   |     7 |                                   853 |
-   |     8 |                                 11117 |
-   |     9 |                                261080 |
-   |    10 |                              11716571 |
-   |-------+---------------------------------------|
- 
+En la [[http://cs.anu.edu.au/~bdm/data/graphs.html][página de internet]] de Brendan McKay hay archivos donde se pueden descargar archivos con gráficas conexas pequeñas.
+
+| \(n\) | # gráficas conexas con \(n\) vértices |
+|-------+---------------------------------------|
+|     6 |                                   112 |
+|     7 |                                   853 |
+|     8 |                                 11117 |
+|     9 |                                261080 |
+|    10 |                              11716571 |
+|-------+---------------------------------------|
+
 
 ** Biblioteca pycliques
 
@@ -677,39 +661,33 @@ En https://github.com/rvf0068/pycliques-project se implementan varios de los teo
 
 ** 
 
-   Para cada gráfica conexa de orden entre 6 y 9 calculamos:
+Para cada gráfica conexa de orden entre 6 y 9 calculamos:
 
-   - Si tiene vértices dominados.
-   - Si es una (clase especial de) gráfica expansiva.
-   - Si es un reloj.
-   - Si alguna iterada es Helly.
-     - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna
-       iterada pasa de 30 vértices, la dejamos.
-   - Si se retrae especialmente a algún octaedro.
-   - Si se retrae a la suspensón de \(C_{5}\), a la suspensión de
-     \(C_{6}\), o al complemento de \(C_{8}\).
-   - Si alguna iterada de clanes se retrae especialmente a algún
-     octaedro. 
-     - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna
-       iterada pasa de 20 vértices, la dejamos.
-   - Si no satisface ninguna de las anteriores, la estudiaremos aparte.
-   
+- Si tiene vértices dominados.
+- Si es una (clase especial de) gráfica expansiva.
+- Si es un reloj.
+- Si alguna iterada es Helly.
+  - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna iterada pasa de 30 vértices, la dejamos.
+- Si se retrae especialmente a algún octaedro.
+- Si se retrae a la suspensón de \(C_{5}\), a la suspensión de \(C_{6}\), o al complemento de \(C_{8}\).
+- Si alguna iterada de clanes se retrae especialmente a algún octaedro.
+  - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna iterada pasa de 20 vértices, la dejamos.
+- Si no satisface ninguna de las anteriores, la estudiaremos aparte.
+
 ** Resultados
 
-   - Todas las gráficas de hasta 7 vértices tienen comportamiento conocido.
-   - La única gráfica de 8 vértices que tiene comportamiento
-     desconocido es una triangulación de la esfera, a saber, el
-     *disfenoide chato* (snub dysphenoid).
+- Todas las gráficas de hasta 7 vértices tienen comportamiento conocido.
+- La única gráfica de 8 vértices que tiene comportamiento desconocido es una triangulación de la esfera, a saber, el *disfenoide chato* (snub dysphenoid).
 
 *** chato 1                                                  :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.5
-    :END:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.5
+:END:
 
-     #+name: disfenoide-chato
-     #+header: :file (by-backend (latex "disfenoide-chato.tikz") (beamer "disfenoide-chato.tikz") (t "disfenoide-chato.png"))
-     #+begin_src latex
+#+name: disfenoide-chato
+#+header: :file (by-backend (latex "disfenoide-chato.tikz") (beamer "disfenoide-chato.tikz") (t "disfenoide-chato.png"))
+#+begin_src latex
 \bigskip
 \begin{tikzpicture}
   \grPath[form=2, RA=1.2, rotation=90, prefix=a]{4}
@@ -719,21 +697,21 @@ En https://github.com/rvf0068/pycliques-project se implementan varios de los teo
   \EdgeFromOneToAll{a}{b}{3}{4}
   \EdgeFromOneToAll{a}{b}{0}{4}
 \end{tikzpicture}
-     #+end_src
-     
-     #+attr_html: :width 400 :alt disfenoide-chato :align center
-     #+attr_latex: :float t :width ""
-     #+RESULTS[116bf51be7cf0f24b74c30b5f25dbf240fa2417e]: disfenoide-chato
-     [[file:disfenoide-chato.png]]
+#+end_src
+
+#+attr_html: :width 400 :alt disfenoide-chato :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[116bf51be7cf0f24b74c30b5f25dbf240fa2417e]: disfenoide-chato
+[[file:disfenoide-chato.png]]
 
 *** chato 2                                                  :B_column:BMCOL:
-    :PROPERTIES:
-    :BEAMER_env: column
-    :BEAMER_col: 0.5
-    :END:
-    #+name: chato-3d
-    #+header: :file (by-backend (latex "chato-3d.tikz") (beamer "chato-3d.tikz") (t "chato-3d.png"))
-    #+begin_src latex
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.5
+:END:
+#+name: chato-3d
+#+header: :file (by-backend (latex "chato-3d.tikz") (beamer "chato-3d.tikz") (t "chato-3d.png"))
+#+begin_src latex
     \setxyzvec[25]
     \newcommand{\rot}{30}
     \newcommand{\leng}{5}
@@ -774,32 +752,31 @@ En https://github.com/rvf0068/pycliques-project se implementan varios de los teo
         \grPath[prefix=d,form=2,RA=\leng,rotation=90+\rot]{2}
       \end{scope}
     \end{tikzpicture}
-    #+end_src
-    
-    #+attr_html: :width 400 :alt chato-3d :align center
-    #+attr_latex: :float t :width ""
-    #+RESULTS[91f5703155b840a874c76f1e4b44f208a2ef9dd5]: chato-3d
-    [[file:chato-3d.png]]
+#+end_src
+
+#+attr_html: :width 400 :alt chato-3d :align center
+#+attr_latex: :float t :width ""
+#+RESULTS[91f5703155b840a874c76f1e4b44f208a2ef9dd5]: chato-3d
+[[file:chato-3d.png]]
 
 ** Iteradas del chato
 
-   - Los órdenes de las primeras iteradas de clanes del disfenoide
-     chato \(D\) son:
+Los órdenes de las primeras iteradas de clanes del disfenoide chato \(D\) son:
 
-     | \(n\) | orden de $K^{n}(D)$ |
-     |-------+---------------------|
-     |     0 |                   8 |
-     |     1 |                  12 |
-     |     2 |                  20 |
-     |     3 |                  56 |
-     |     4 |                1076 |
-     |     5 |    $>7,370,000,000$ |
+| \(n\) | orden de $K^{n}(D)$ |
+|-------+---------------------|
+|     0 |                   8 |
+|     1 |                  12 |
+|     2 |                  20 |
+|     3 |                  56 |
+|     4 |                1076 |
+|     5 |    $>7,370,000,000$ |
 
 ** 9 y 10 vértices
-   - Quedan 29 gráficas de orden 9 con carácter desconocido.
-   - Suponiendo que el disfenoide chato es divergente, quedarían todavía 18 gráficas con carácter      desconocido.
-   - Hay exactamente 2 de ellas que son triangulaciones de la esfera.
-   - De las más de 11 millones de gráficas conexas de 10 vértices, quedan aproximadamente 2800 con carácter desconocido.
+- Quedan 29 gráficas de orden 9 con carácter desconocido.
+- Suponiendo que el disfenoide chato es divergente, quedarían todavía 18 gráficas con carácter desconocido.
+- Hay exactamente 2 de ellas que son triangulaciones de la esfera.
+- De las más de 11 millones de gráficas conexas de 10 vértices, quedan aproximadamente 2800 con carácter desconocido.
 
 * Tipo de homotopía
 
