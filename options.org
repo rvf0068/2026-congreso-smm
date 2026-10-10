@@ -21,6 +21,9 @@
 #+beamer_header: \beamerdefaultoverlayspecification{<+->}
 #+beamer_header: \languagepath{spanish}
 
+
+#+latex_header: \usepackage{unicode-math}
+#+latex_header: \setmathfont{Fira Math}
 # #+latex_header: \usepackage{newtxsf}
 # #+latex_header: \usepackage{eulervm}
 # #+latex_header: \usefonttheme{professionalfonts}

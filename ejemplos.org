@@ -15,6 +15,8 @@ from pycombtop import *
 
 * Periódicas
 
+Las gráficas bipartitas no tienen triángulos, por lo tanto, son periódicas.
+
 #+begin_src jupyter-python :results scalar
 g = nx.complete_bipartite_graph(3, 4)
 cs = CliqueSequence(g)
@@ -23,6 +25,8 @@ cs = CliqueSequence(g)
 
 #+RESULTS[7022380b1f0b46be1baf12ca742238623c156ddf]:
 : [7, 12, 7, 12, 7, 12, 7, 12, 7, 12]
+
+También la gráfica de Petersen es periódica, con período 2.
 
 #+begin_src jupyter-python :results scalar
 g = nx.petersen_graph()
@@ -33,17 +37,21 @@ cs = CliqueSequence(g)
 #+RESULTS:
 : [10, 15, 10, 15, 10, 15, 10, 15, 10, 15]
 
+El producto fuerte de gráficas se comporta bien respecto al operador de clanes. Damos un argumento extra a la función CliqueSequence para admitir gráficas de mayor tamaño.
+
 #+begin_src jupyter-python :results scalar
 g = nx.strong_product(nx.complete_bipartite_graph(4, 3),
                       nx.petersen_graph())
-cs = CliqueSequence(g, 300)
+cs = CliqueSequence(g, 200)
 [cs[i].order() for i in range(10) if cs[i] is not None]
 #+end_src
 
-#+RESULTS[99eeab22478fcd008ef0de6527269a187dc727a8]:
+#+RESULTS[8663f7b61460ab8d8f307afdbdd8fba05235bcff]:
 : [70, 180, 70, 180, 70, 180, 70, 180, 70, 180]
 
 * Gráficas aleatorias
+
+Veremos un ejemplo de una gráfica aleatoria. Aquí fijamos la semilla para no tener sorpresas.
 
 #+begin_src jupyter-python
 g = nx.gnp_random_graph(10, 0.5, 300)
@@ -51,7 +59,7 @@ nx.draw(g)
 #+end_src
 
 #+RESULTS:
-[[file:./.ob-jupyter/5c570b64b2cb6409af0c6d3c2e3619e953121219.png]]
+[[file:./.ob-jupyter/c0cf76a6d0d02b6089703cf02ee1c6d4867bd3f4.png]]
 
 #+begin_src jupyter-python :results scalar
 cs = CliqueSequence(g)
@@ -59,7 +67,9 @@ cs = CliqueSequence(g)
 #+end_src
 
 #+RESULTS[ff87fc66839cfe28d26aafd736fc7bb549e078c5]:
-: [15, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+: [10, 8, 8, 8, 8, 8, 8, 8, 8, 8]
+
+La siguiente gráfica aleatoria es nueva.
 
 #+begin_src jupyter-python :results scalar
 g = nx.gnp_random_graph(15, 0.7)
@@ -68,14 +78,23 @@ cs = CliqueSequence(g, 50)
 #+end_src
 
 #+RESULTS:
-: [15, 19, 48]
+: [15, 8, 16]
 
-#+begin_src jupyter-python
-classify_clique_behavior(g)
+#+begin_src jupyter-python :results scalar
+behavior = classify_clique_behavior(g)
+{
+    "verdict": behavior.verdict.name,
+    "reason": behavior.reason,
+    "iterations_checked": behavior.iterations_checked,
+}
 #+end_src
 
-#+RESULTS:
-: CliqueBehavior(verdict=<Verdict.DIVERGENT: 2>, reason='eventually has a special octahedron (index 0, dimension 3)', iterations_checked=2, bound_exceeded=False, pared_graph=<networkx.classes.graph.Graph object at 0x7fbb90aea550>, certificate=None)
+#+RESULTS[7e5db867162c805b654bd526c12291e1f4cf9ba3]:
+: {'verdict': 'DIVERGENT',
+:  'reason': 'eventually has a special octahedron (index 0, dimension 3)',
+:  'iterations_checked': 1}
+
+El siguiente procedimiento suele crear gráficas con comportamiento interesante.
 
 #+begin_src jupyter-python :results scalar
 g = nx.gnp_random_graph(8, 0.5)
@@ -85,16 +104,25 @@ cs = CliqueSequence(mg, 200)
 #+end_src
 
 #+RESULTS:
-: [12, 18, 4, 4, 4, 4, 4, 4, 4, 4]
+: [14, 30, 46]
 
-#+begin_src jupyter-python
-classify_clique_behavior(mg)
+#+begin_src jupyter-python :results scalar
+behavior = classify_clique_behavior(mg)
+{
+    "verdict": behavior.verdict.name,
+    "reason": behavior.reason,
+    "iterations_checked": behavior.iterations_checked,
+}
 #+end_src
 
-#+RESULTS:
-: CliqueBehavior(verdict=<Verdict.CONVERGENT: 1>, reason='is eventually Helly (index 0)', iterations_checked=2, bound_exceeded=False, pared_graph=<networkx.classes.graph.Graph object at 0x79649e134e90>, certificate=None)
+#+RESULTS[2a2b93d6395d14cdaebae60172f29b81e5dcabe4]:
+: {'verdict': 'INDETERMINATE',
+:  'reason': 'clique count exceeded bound',
+:  'iterations_checked': 2}
 
 * Relojes
+
+Los relojes dan ejemplos de gráficas cuya sucesión de iteradas de clanes crece linealmente.
 
 #+begin_src jupyter-python :results scalar
 g = clockwork_graph([1, 1, 1], [[1], [0], [0]], 2, [1, 0])
@@ -105,6 +133,8 @@ cs = CliqueSequence(g, 60)
 #+RESULTS[23f4e688b5af43ac6d51180e418e8ee20a78f1b1]:
 : [9, 11, 13, 15, 17, 19, 21, 23, 25, 27]
 
+Este es otro procedimiento que genera gráficas con comportamiento interesante.
+
 #+begin_src jupyter-python :results scalar
 hg = homotopy_clique_graph(g)
 cs = CliqueSequence(hg, 100)
@@ -114,10 +144,12 @@ cs = CliqueSequence(hg, 100)
 #+RESULTS[c92485361d29b6a3d9480c663e4b5d29eab9dd8f]:
 : [34, 34, 38, 46, 54, 64, 80, 98]
 
-* Otras
+* Otras gráficas interesantes
+
+Esta tarda aproximadamente 20 segundos.
 
 #+begin_src jupyter-python :results scalar
-g = nx.from_graph6_bytes(b"ICqnfp}\o")
+g = nx.from_graph6_bytes(b"ICqnfp}\\o")
 hg = homotopy_clique_graph(g)
 cs = CliqueSequence(hg, 700)
 [cs[i].order() for i in range(10) if cs[i] is not None]
@@ -125,8 +157,6 @@ cs = CliqueSequence(hg, 700)
 
 #+RESULTS[1ad7aec42a93ba029d09ab8e8669e4c0744bcd67]:
 : [54, 50, 67, 89, 148, 267, 606]
-
-
 
 
 * COMMENT Local Variables
