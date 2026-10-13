@@ -281,7 +281,7 @@ La gráfica \(K(G)\).
 
 ** Iteradas del octaedro
 
-Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_{n})=O_{2^{n-1}}\). Por lo que \(O_{n}\) es divergente si \(n\geq3\). (Neumann-Lara, 1973).
+Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_{n})\cong O_{2^{n-1}}\). Por lo que \(O_{n}\) es divergente si \(n\geq3\). (Neumann-Lara, 1973).
 
 #+name: iteradasoctaedro
 #+header: :file (by-backend (latex "iteradasoctaedro.tikz") (beamer "iteradasoctaedro.tikz") (t "iteradasoctaedro.png"))
@@ -315,10 +315,10 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 ** Gráficas Helly
 
 - Una colección \(\mathcal{C}\) de subconjuntos de un conjunto \(X\) es *intersecante* si \(c_{1}\cap c_{2}\ne\emptyset\) para todos \(c_{1},c_{2}\in \mathcal{C}\).
-- La collección \(\mathcal{C}\) es *Helly* si cualquier subfamilia intersecante \(\mathcal{C}'\) de \(\mathcal{C}\) es tal que \(\cap\mathcal{C}'\ne\emptyset\).
+- La colección \(\mathcal{C}\) es *Helly* si cualquier subfamilia intersecante \(\mathcal{C}'\) de \(\mathcal{C}\) es tal que \(\bigcap\mathcal{C}'\ne\emptyset\).
 - La gráfica \(G\) es *Helly* si su colección de clanes es Helly.
 
-** 
+** La pirámide y propiedad de Helly
 
 - *Pirámide*. La gráfica más pequeña que *no* es Helly:
 
@@ -357,7 +357,7 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 
 ** Gráficas desmantelables
 
-- Un vértice \(x\) en \(G\) es *dominado* si existe \(y\in V(G)\), \(y\ne x\) tal que \(z\sim x\) con \(z\ne y\) implica \(z\sim y\).
+- Un vértice \(x\) en \(G\) es *dominado* si existe \(y\in V(G)\), \(y\sim x\) tal que \(z\sim x\) con \(z\ne y\) implica \(z\sim y\).
 #+name: dominado
 #+header: :imagemagick yes :iminoptions -density 300 -resize 400
 #+header: :packages '(("" "tikz") ("" "tkz-berge")) :border 1pt
@@ -384,7 +384,7 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 #+RESULTS[d0e79956c429392d43332f2f3703a2a4173d0e32]: dominado
 [[file:dominado.png]]
 
-- Una gráfica \(G\) es *desmantelable* si \(G\) se pueden llevar a la gráfica de un solo vértice removiendo sucesivamente vértices dominados.
+- Una gráfica \(G\) es *desmantelable* si \(G\) se puede Llevar a la gráfica de un solo vértice removiendo sucesivamente vértices dominados.
 - Los *árboles* y las *gráficas cordales* son desmantelables.
 
 ** Teoremas sobre vértices dominados
@@ -420,7 +420,7 @@ Si definimos el *octaedro* \(O_{n}\) como \(\overline{nK_{2}}\), entonces \(K(O_
 :BEAMER_env: column
 :BEAMER_col: 0.6
 :END:
-Un *morfismo de gráficas* \(f\colon G\to L\) es una función tal que \(x\sim y\) implica \(f(x)\sim f(y)\) o \(f(x)=f(y)\).
+Un *morfismo de gráficas* \(f\colon G\to L\) es una función entre sus conjuntos de vértices tal que \(x\sim y\) implica \(f(x)\sim f(y)\) o \(f(x)=f(y)\).
 
 ***                                                          :B_column:BMCOL:
 :PROPERTIES:
@@ -569,7 +569,7 @@ Si \(L\) es una subgráfica de \(G\), una *retracción* \(r\colon G\to L\) es un
 #+RESULTS[8c54688637c2b49606e64a51c550637c799a95f8]: suspensiones
 [[file:suspensiones.png]]
 
-** 
+** Complementos de ciclos
 
 - Los *complementos* de los ciclos de \(n\) vértices, para \(n\geq 8\), también son gráficas expansivas, por lo tanto, divergentes.
 
@@ -591,7 +591,8 @@ Si \(L\) es una subgráfica de \(G\), una *retracción* \(r\colon G\to L\) es un
 [[file:complementos-de-ciclos.png]]
 
 
-** 
+** Relojes
+
 Un *reloj*. Las gráficas de clanes de esta gráfica ganan un vértice en cada iteración.
 #+name: reloj
 #+header: :imagemagick yes :iminoptions -density 300 -resize 400
@@ -626,7 +627,7 @@ Un *reloj*. Las gráficas de clanes de esta gráfica ganan un vértice en cada i
 
 ** Página de McKay
 
-En la [[http://cs.anu.edu.au/~bdm/data/graphs.html][página de internet]] de Brendan McKay hay archivos donde se pueden descargar archivos con gráficas conexas pequeñas.
+En la [[http://cs.anu.edu.au/~bdm/data/graphs.html][página de internet]] de Brendan McKay se pueden descargar archivos con gráficas conexas pequeñas.
 
 | \(n\) | # gráficas conexas con \(n\) vértices |
 |-------+---------------------------------------|
@@ -652,7 +653,7 @@ Para cada gráfica conexa de orden entre 6 y 9 calculamos:
 - Si alguna iterada es Helly.
   - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna iterada pasa de 30 vértices, la dejamos.
 - Si se retrae especialmente a algún octaedro.
-- Si se retrae a la suspensón de \(C_{5}\), a la suspensión de \(C_{6}\), o al complemento de \(C_{8}\).
+- Si se retrae a la suspensión de \(C_{5}\), a la suspensión de \(C_{6}\), o al complemento de \(C_{8}\).
 - Si alguna iterada de clanes se retrae especialmente a algún octaedro.
   - Por cuestiones prácticas, solo iteramos 8 veces, y si alguna iterada pasa de 20 vértices, la dejamos.
 - Si no satisface ninguna de las anteriores, la estudiaremos aparte.
@@ -660,7 +661,7 @@ Para cada gráfica conexa de orden entre 6 y 9 calculamos:
 ** Resultados
 
 - Todas las gráficas conexas de hasta 7 vértices tienen comportamiento conocido.
-- La única gráfica conexa de 8 vértices que tiene comportamiento desconocido es una triangulación de la esfera, a saber, el *disfenoide chato* (snub dysphenoid).
+- La única gráfica conexa de 8 vértices que tiene comportamiento desconocido es una triangulación de la esfera, a saber, el *disfenoide chato* (snub disphenoid).
 
 *** chato 1                                                  :B_column:BMCOL:
 :PROPERTIES:
@@ -756,8 +757,8 @@ Los órdenes de las primeras iteradas de clanes del disfenoide chato \(D\) son:
 |     5 |    $>7,370,000,000$ |
 
 ** 9 y 10 vértices
-- Quedan 29 gráficas de orden 9 con carácter desconocido.
-- Suponiendo que el disfenoide chato es divergente, quedarían todavía 18 gráficas con carácter desconocido.
+- Quedan 29 gráficas de orden 9 con comportamiento desconocido.
+- Suponiendo que el disfenoide chato es divergente, quedarían todavía 18 gráficas con comportamiento desconocido.
 - Hay exactamente 2 de ellas que son triangulaciones de la esfera.
 - De las más de 11 millones de gráficas conexas de 10 vértices, quedan aproximadamente 2800 con carácter desconocido.
 
@@ -773,8 +774,8 @@ Los órdenes de las primeras iteradas de clanes del disfenoide chato \(D\) son:
 ** Resultados y conjeturas
 
 - Dado cualquier complejo simplicial finito \(\Delta\) existe una gráfica \(G\) tal que \(\text{\sffamily Cl}(G)\simeq \Delta\) y \(G\) es divergente. (Larrión, Pizaña, V., 2013)
-- *Conjetura* Si \(\text{\sffamily Cl}(G)\simeq S^{n}\) con \(n\geq 2\), entonces \(G\) es divergente.
-- Más aún, conjeturo que si \(\text{\sffamily Cl}(G)\simeq S^{n}\vee X\) para algún espacio \(X\) y \(n\geq 2\), entonces \(G\) es divergente.
+- *Conjetura:* Si \(\text{\sffamily Cl}(G)\simeq S^{n}\) con \(n\geq 2\), entonces \(G\) es divergente.
+- Más aún, se conjetura que si \(\text{\sffamily Cl}(G)\simeq S^{n}\vee X\) para algún espacio \(X\) y \(n\geq 2\), entonces \(G\) es divergente.
 - Todas las 29 gráficas de orden 9 de comportamiento desconocido tienen ese tipo de homotopía.
 
 ** Referencias
