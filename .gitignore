@@ -5,3 +5,6 @@
 *~
 /biblioteca-python.tex
 *.tikz
+/.ipynb_checkpoints/
+/auto/
+*.tex
